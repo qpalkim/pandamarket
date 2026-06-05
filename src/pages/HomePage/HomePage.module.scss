@@ -1,0 +1,17 @@
+@use "@/styles/variables" as *;
+
+.container {
+  color: $primary-100;
+  font-size: $font-2xl;
+  line-height: $line-2xl;
+
+  @include tablet {
+    color: red;
+    font-size: $font-xl;
+  }
+
+  @include mobile {
+    color: green;
+    font-size: $font-md;
+  }
+}
