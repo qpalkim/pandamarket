@@ -1,0 +1,138 @@
+@use "@/styles/variables" as *;
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease,
+    border-color 0.2s ease;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.button:focus-visible {
+  outline: 2px solid $primary-100;
+  outline-offset: 2px;
+}
+
+/* VARIANT */
+.primary {
+  background-color: $primary-100;
+  color: $secondary-50;
+  border: none;
+
+  &:hover:not(:disabled) {
+    background-color: $primary-200;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $primary-300;
+  }
+
+  &:disabled,
+  &.loading {
+    background-color: $secondary-400;
+  }
+}
+
+.outline {
+  background-color: $secondary-50;
+  color: $primary-100;
+  border: 1px solid $primary-100;
+
+  &:hover:not(:disabled) {
+    background-color: $primary-100;
+    color: $secondary-50;
+    border-color: $primary-100;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $primary-200;
+    color: $secondary-50;
+    border-color: $primary-200;
+  }
+
+  &:disabled,
+  &.loading {
+    background-color: $secondary-400;
+  }
+}
+
+/* SIZE */
+.sm {
+  width: fit-content;
+  height: 36px;
+  font-size: $font-lg;
+  padding: 8px 16px;
+  border-radius: 8px;
+
+  @include tablet {
+    font-size: $font-md;
+    height: 34px;
+  }
+
+  @include mobile {
+    font-size: $font-sm;
+    height: 32px;
+  }
+}
+
+.md {
+  width: fit-content;
+  height: 46px;
+  font-size: $font-2lg;
+  padding: 12px 72px;
+  border-radius: 40px;
+
+  @include tablet {
+    font-size: $font-lg;
+    height: 44px;
+  }
+
+  @include mobile {
+    font-size: $font-md;
+    height: 42px;
+  }
+}
+
+.lg {
+  width: 100%;
+  height: 48px;
+  font-size: $font-xl;
+  border-radius: 40px;
+
+  @include tablet {
+    font-size: $font-2lg;
+    height: 46px;
+  }
+
+  @include mobile {
+    font-size: $font-lg;
+    height: 44px;
+  }
+}
+
+/* STATES */
+.disabled,
+.loading {
+  cursor: not-allowed;
+}
+
+/* SPINNER */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid $secondary-50;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
