@@ -10,6 +10,15 @@
 
 body {
   min-width: 375px;
+  padding-top: 70px;
+
+  @include tablet {
+    padding-top: 60px;
+  }
+
+  @include mobile {
+    padding-top: 52px;
+  }
 }
 
 a {
