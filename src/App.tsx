@@ -1,7 +1,11 @@
 import Router from "@/router/Router";
+import GuestHeader from "@/components/Header/GuestHeader";
 
 export default function App() {
   return (
-    <Router />
+    <>
+      <GuestHeader />
+      <Router />
+    </>
   )
 }
