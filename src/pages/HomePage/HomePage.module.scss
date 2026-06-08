@@ -172,7 +172,6 @@
   height: 540px;
   background-color: #cfe5ff;
   overflow: hidden;
-  margin-top: 264px;
 
   @include tablet {
     height: 772px;
@@ -180,7 +179,6 @@
 
   @include mobile {
     height: 540px;
-    margin-top: 132px;
   }
 }
 
