@@ -1,17 +1,229 @@
 @use "@/styles/variables" as *;
 
-.container {
-  color: $primary-100;
-  font-size: $font-2xl;
-  line-height: $line-2xl;
+/* HERO SECTION */
+.heroContainer {
+  width: 100%;
+  height: 540px;
+  background-color: #cfe5ff;
+  overflow: hidden;
 
   @include tablet {
-    color: red;
-    font-size: $font-xl;
+    height: 772px;
   }
 
   @include mobile {
-    color: green;
-    font-size: $font-md;
+    height: 540px;
+  }
+}
+
+.heroContent {
+  width: 100%;
+  height: 100%;
+  max-width: 1120px;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  position: relative;
+
+  @include tablet {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  @include tablet {
+    padding: 84px;
+  }
+
+  @include mobile {
+    padding: 48px;
+    gap: 16px;
+  }
+}
+
+.heroTitle {
+  color: $secondary-700;
+  font-weight: 700;
+  font-size: $font-3xl;
+  white-space: nowrap;
+
+  @include tablet {
+    text-align: center;
+  }
+
+  @include mobile {
+    font-size: $font-2xl;
+  }
+}
+
+.heroImage {
+  max-width: 746px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  @include tablet {
+    position: static;
+  }
+
+  @include mobile {
+    max-width: 640px;
+    width: 120%;
+  }
+}
+
+/* FEATURE SECTION */
+.featureContainer {
+  padding: 124px 0;
+
+  @include tablet {
+    padding: 124px 24px;
+  }
+}
+
+.featureContent {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1120px;
+  display: flex;
+  flex-direction: column;
+  gap: 264px;
+
+  @include mobile {
+    gap: 132px;
+  }
+}
+
+.featureItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 64px;
+
+  @include tablet {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+}
+
+.featureItemReverse {
+  flex-direction: row-reverse;
+
+  @include tablet {
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+  }
+}
+
+.featureImage {
+  max-width: 540px;
+  width: 100%;
+
+  @include tablet {
+    max-width: 720px;
+  }
+}
+
+.featureText {
+  white-space: nowrap;
+}
+
+.featureBadge {
+  color: $primary-100;
+  font-size: $font-2lg;
+  font-weight: 600;
+
+  @include mobile {
+    font-size: $font-lg;
+  }
+}
+
+.featureTitle {
+  color: $secondary-700;
+  font-size: $font-3xl;
+  font-weight: 700;
+  margin: 12px 0 24px;
+
+  @include mobile {
+    font-size: $font-2xl;
+  }
+}
+
+.featureDesc {
+  color: $secondary-700;
+  font-size: $font-xl;
+
+  @include mobile {
+    font-size: $font-2lg;
+  }
+}
+
+/* FOOTER SECTION */
+.footerContainer {
+  width: 100%;
+  height: 540px;
+  background-color: #cfe5ff;
+  overflow: hidden;
+  margin-top: 264px;
+
+  @include tablet {
+    height: 772px;
+  }
+
+  @include mobile {
+    height: 540px;
+    margin-top: 132px;
+  }
+}
+
+.footerContent {
+  width: 100%;
+  max-width: 1120px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 0 auto;
+
+  @include tablet {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.footerImage {
+  max-width: 746px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  @include tablet {
+    position: static;
+    max-width: 640px;
+  }
+}
+
+.footerTitle {
+  color: $secondary-700;
+  font-weight: 700;
+  font-size: $font-3xl;
+  white-space: nowrap;
+
+  @include tablet {
+    text-align: center;
+    padding: 84px;
+  }
+
+  @include mobile {
+    font-size: $font-2xl;
   }
 }
