@@ -46,12 +46,12 @@ export default function LoginPage() {
       </form>
       <OAuthButton />
 
-      <p className={styles.signupText}>
+      <p className={styles.signUpText}>
         판다마켓이 처음인가요?&nbsp;
         <Link
           to="/signup"
           aria-label="회원가입 페이지 이동"
-          className={styles.signupLink}
+          className={styles.signUpLink}
         >
           회원가입하기
         </Link>
