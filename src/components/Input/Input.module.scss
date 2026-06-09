@@ -1,0 +1,86 @@
+@use "@/styles/variables" as *;
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+  color: $secondary-800;
+  font-size: $font-lg;
+  font-weight: 700;
+}
+
+.required {
+  color: $error-100;
+}
+
+.error {
+  display: block;
+  margin-top: 8px;
+  margin-left: 12px;
+  color: $error-100;
+  font-size: $font-md;
+}
+
+.input {
+  width: 100%;
+  height: 46px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  outline: none;
+  border-radius: 8px;
+  background-color: $secondary-100;
+  color: $secondary-800;
+  font-size: $font-md;
+
+  transition:
+    background-color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+
+  &::placeholder {
+    color: $secondary-400;
+    font-size: $font-md;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:focus {
+    border-color: $primary-100;
+    background-color: rgba($primary-100, 0.05);
+    box-shadow: 0 0 0 3px rgba($primary-100, 0.4);
+  }
+}
+
+.input--error {
+  border-color: $error-100;
+  background-color: rgba($error-100, 0.05);
+
+  &:focus {
+    border-color: $error-100;
+    background-color: rgba($error-100, 0.05);
+    box-shadow: 0 0 0 3px rgba($error-100, 0.4);
+  }
+}
+
+@include tablet {
+  .label {
+    font-size: $font-md;
+  }
+
+  .input {
+    height: 42px;
+    font-size: $font-sm;
+
+    &::placeholder {
+      font-size: $font-sm;
+    }
+  }
+
+  .error {
+    font-size: $font-sm;
+  }
+}
