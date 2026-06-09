@@ -9,6 +9,7 @@
 }
 
 body {
+  background-color: #fcfcfc;
   min-width: 375px;
   padding-top: 70px;
 
@@ -43,4 +44,13 @@ strong,
 em {
   font-size: inherit;
   font-weight: inherit;
+}
+
+button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
 }
