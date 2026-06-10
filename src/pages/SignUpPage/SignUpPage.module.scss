@@ -48,7 +48,7 @@
   }
 }
 
-.loginForm {
+.signUpForm {
   > * + * {
     margin-top: 24px;
   }
@@ -73,7 +73,7 @@
   color: $secondary-400;
 }
 
-.signUpText {
+.loginText {
   display: flex;
   justify-content: center;
   color: $secondary-800;
@@ -84,7 +84,7 @@
   }
 }
 
-.signUpLink {
+.loginLink {
   color: $primary-100;
   text-decoration: underline;
   font-weight: 600;
