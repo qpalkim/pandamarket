@@ -4,14 +4,11 @@ import twitter from "@/assets/icons/twitter.svg";
 import youtube from "@/assets/icons/youtube.svg";
 import instagram from "@/assets/icons/instagram.svg";
 
-
 export default function Footer() {
   return (
     <footer className={styles.container}>
       <div className={styles.content}>
-        <div className={styles.copyright}>
-          ©codeit - 2024
-        </div>
+        <div className={styles.copyright}>©codeit - 2024</div>
         <ul className={styles.menu}>
           <li>Privacy Policy</li>
           <li>FAQ</li>
@@ -24,5 +21,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
