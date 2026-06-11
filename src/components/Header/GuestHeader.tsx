@@ -7,7 +7,7 @@ export default function GuestHeader() {
   return (
     <header className={styles.container}>
       <div className={styles.content}>
-        <Link to="/" aria-label="홈페이지 이동" className={styles.title}>
+        <Link to="/" className={styles.title}>
           <img src={logo} alt="" draggable={false} />
           <span>판다마켓</span>
         </Link>
