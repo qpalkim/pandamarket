@@ -36,11 +36,7 @@ export default function Button({
     .filter(Boolean)
     .join(" ");
 
-  const content = isLoading ? (
-    <span className={styles.spinner} />
-  ) : (
-    children
-  );
+  const content = isLoading ? <span className={styles.spinner} /> : children;
 
   return (
     <button

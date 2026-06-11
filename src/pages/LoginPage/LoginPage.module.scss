@@ -60,11 +60,19 @@
 
 .pwToggle {
   position: absolute;
-  top: 50%;
+  top: 43px;
   width: 32px;
   height: 32px;
   cursor: pointer;
   right: 12px;
+
+  @include tablet {
+    top: 38px;
+  }
+
+  @include mobile {
+    top: 37px;
+  }
 }
 
 .pwIcon {
