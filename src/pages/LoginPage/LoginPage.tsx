@@ -13,13 +13,14 @@ import styles from "./LoginPage.module.scss";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [showPw, setShowPw] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState("");
 
   const [emailTouched, setEmailTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
+
+  const [showPw, setShowPw] = useState(false);
 
   const isEmailValid = !validateEmail(email);
   const isPasswordValid = !validatePassword(password);
@@ -44,8 +45,11 @@ export default function LoginPage() {
       localStorage.setItem(ACCESS_TOKEN_KEY, data.accessToken);
       navigate("/items");
     } catch (error) {
-      setServerError("이메일 또는 비밀번호를 확인해 주세요");
-      console.error("로그인 에러:", error);
+      if (error instanceof Error) {
+        setServerError(error.message);
+      } else {
+        setServerError("로그인을 실패했습니다.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -54,7 +58,7 @@ export default function LoginPage() {
   return (
     <div className={styles.container}>
       <div className={styles.logoWrapper}>
-        <Link to="/" aria-label="홈페이지 이동" className={styles.logo}>
+        <Link to="/" className={styles.logo}>
           <img src={logo} alt="" draggable={false} />
           <span>판다마켓</span>
         </Link>
@@ -66,7 +70,10 @@ export default function LoginPage() {
           placeholder="이메일을 입력해 주세요"
           value={email}
           onBlur={() => setEmailTouched(true)}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setServerError("");
+          }}
           error={serverError || (emailTouched ? validateEmail(email) : "")}
         />
         <div className={styles.pwContainer}>
@@ -105,11 +112,7 @@ export default function LoginPage() {
 
       <p className={styles.signUpText}>
         판다마켓이 처음인가요?&nbsp;
-        <Link
-          to="/signup"
-          aria-label="회원가입 페이지 이동"
-          className={styles.signUpLink}
-        >
+        <Link to="/signup" className={styles.signUpLink}>
           회원가입하기
         </Link>
       </p>
