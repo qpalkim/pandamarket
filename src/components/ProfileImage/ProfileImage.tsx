@@ -28,6 +28,7 @@ export default function ProfileImage({
         className={styles.image}
         src={src || defaultProfile}
         alt="사용자 프로필 이미지"
+        draggable={false}
         onError={(e) => {
           e.currentTarget.src = defaultProfile;
         }}
