@@ -1,0 +1,91 @@
+@use "@/styles/variables" as *;
+
+.container {
+  width: 100%;
+  height: 70px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: $secondary-50;
+  border-bottom: 1px solid $primary-100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+  @include tablet {
+    height: 60px;
+  }
+
+  @include mobile {
+    height: 52px;
+  }
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  max-width: 1120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+
+  @include tablet {
+    padding: 0 24px;
+  }
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-size: $font-2lg;
+  font-weight: 600;
+  color: $secondary-600;
+  white-space: nowrap;
+
+  @include tablet {
+    font-size: $font-lg;
+    gap: 24px;
+  }
+
+  @include mobile {
+    font-size: $font-md;
+    gap: 8px;
+  }
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  span {
+    color: $primary-100;
+    font-size: $font-2xl;
+    font-weight: 900;
+    white-space: nowrap;
+
+    @include tablet {
+      font-size: $font-xl;
+    }
+
+    @include mobile {
+      font-size: $font-2lg;
+    }
+  }
+
+  img {
+    width: 40px;
+    height: 40px;
+
+    @include tablet {
+      width: 36px;
+      height: 36px;
+    }
+
+    @include mobile {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}
