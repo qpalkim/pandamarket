@@ -1,16 +1,16 @@
 import Router from "@/router/Router";
-import GuestHeader from "@/components/Header/GuestHeader";
 import Footer from "@/components/Footer/Footer";
 import styles from "./App.module.scss";
+import Header from "@/components/Header/Header";
 
 export default function App() {
   return (
     <div className={styles.layout}>
-      <GuestHeader />
+      <Header />
       <main className={styles.main}>
         <Router />
       </main>
       <Footer />
     </div>
-  )
+  );
 }
