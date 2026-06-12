@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { signUp } from "@/api/auth";
+import { getMyProfile } from "@/api/user";
+import { useAuth } from "@/hooks/useAuth";
 import {
   validateEmail,
   validateNickname,
@@ -43,6 +45,8 @@ export default function SignUpPage() {
 
   const navigate = useNavigate();
 
+  const { setUser } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -77,6 +81,8 @@ export default function SignUpPage() {
         passwordConfirmation,
       });
       localStorage.setItem(ACCESS_TOKEN_KEY, data.accessToken);
+      const user = await getMyProfile();
+      setUser(user);
       navigate("/items");
     } catch (error) {
       if (error instanceof Error) {

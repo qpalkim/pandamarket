@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { login } from "@/api/auth";
+import { getMyProfile } from "@/api/user";
+import { useAuth } from "@/hooks/useAuth";
 import { validateEmail, validatePassword } from "@/utils/validate";
 import { ACCESS_TOKEN_KEY } from "@/constants/storage";
 import Input from "@/components/Input/Input";
@@ -27,6 +29,8 @@ export default function LoginPage() {
 
   const navigate = useNavigate();
 
+  const { setUser } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -43,6 +47,8 @@ export default function LoginPage() {
       setIsLoading(true);
       const data = await login({ email, password });
       localStorage.setItem(ACCESS_TOKEN_KEY, data.accessToken);
+      const user = await getMyProfile();
+      setUser(user);
       navigate("/items");
     } catch (error) {
       if (error instanceof Error) {
