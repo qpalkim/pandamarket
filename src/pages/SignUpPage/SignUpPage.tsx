@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { signUp } from "@/api/auth";
+import { getMyProfile } from "@/api/user";
+import { useAuth } from "@/hooks/useAuth";
 import {
   validateEmail,
   validateNickname,
@@ -23,6 +25,7 @@ export default function SignUpPage() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [nicknameServerError, setNicknameServerError] = useState("");
 
   const [emailTouched, setEmailTouched] = useState(false);
   const [nicknameTouched, setNicknameTouched] = useState(false);
@@ -43,6 +46,8 @@ export default function SignUpPage() {
 
   const navigate = useNavigate();
 
+  const { setUser } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -50,7 +55,9 @@ export default function SignUpPage() {
     setNicknameTouched(true);
     setPasswordTouched(true);
     setPasswordConfirmationTouched(true);
+
     setServerError("");
+    setNicknameServerError("");
 
     const emailError = validateEmail(email);
     const nicknameError = validateNickname(nickname);
@@ -77,10 +84,16 @@ export default function SignUpPage() {
         passwordConfirmation,
       });
       localStorage.setItem(ACCESS_TOKEN_KEY, data.accessToken);
+      const user = await getMyProfile();
+      setUser(user);
       navigate("/items");
     } catch (error) {
       if (error instanceof Error) {
-        setServerError(error.message);
+        if (error.message === "이미 사용중인 닉네임입니다.") {
+          setNicknameServerError(error.message);
+        } else {
+          setServerError(error.message);
+        }
       } else {
         setServerError("회원가입을 실패했습니다.");
       }
@@ -115,8 +128,14 @@ export default function SignUpPage() {
           placeholder="닉네임을 입력해 주세요"
           value={nickname}
           onBlur={() => setNicknameTouched(true)}
-          onChange={(e) => setNickname(e.target.value)}
-          error={nicknameTouched ? validateNickname(nickname) : ""}
+          onChange={(e) => {
+            setNickname(e.target.value);
+            setNicknameServerError("");
+          }}
+          error={
+            nicknameServerError ||
+            (nicknameTouched ? validateNickname(nickname) : "")
+          }
         />
         <div className={styles.pwContainer}>
           <Input
