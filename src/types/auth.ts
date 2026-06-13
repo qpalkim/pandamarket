@@ -1,11 +1,8 @@
-// 공통 유저 타입
-export interface User {
-  id: number;
+import type { BaseUser } from "./user";
+
+// 사용자 정보 타입
+export interface UserDetail extends BaseUser {
   email: string;
-  image: string | null;
-  nickname: string;
-  updatedAt: string;
-  createdAt: string;
 }
 
 // 로그인 요청 타입
@@ -16,7 +13,7 @@ export interface LoginRequest {
 
 // 로그인 응답 타입
 export interface LoginResponse {
-  user: User;
+  user: UserDetail;
   accessToken: string;
   refreshToken: string;
 }
@@ -31,7 +28,7 @@ export interface SignUpRequest {
 
 // 회원가입 응답 타입
 export interface SignUpResponse {
-  user: User;
+  user: UserDetail;
   accessToken: string;
   refreshToken: string;
 }
