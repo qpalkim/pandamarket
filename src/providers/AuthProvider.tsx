@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
-import type { UserResponse } from "@/types/user";
+import type { BaseUser } from "@/types/user";
 import { getMyProfile } from "@/api/user";
 import { ACCESS_TOKEN_KEY } from "@/constants/storage";
 
@@ -9,7 +9,7 @@ export default function AuthProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<UserResponse | null>(null);
+  const [user, setUser] = useState<BaseUser | null>(null);
 
   const isLoggedIn = !!user;
 
