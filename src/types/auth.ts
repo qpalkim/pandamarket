@@ -22,7 +22,7 @@ export interface LoginResponse {
 }
 
 // 회원가입 요청 타입
-export interface SignUpReauest {
+export interface SignUpRequest {
   email: string;
   nickname: string;
   password: string;
@@ -34,4 +34,14 @@ export interface SignUpResponse {
   user: User;
   accessToken: string;
   refreshToken: string;
+}
+
+// 토큰 갱신 요청 타입
+export interface RefreshTokenUpdateRequest {
+  refreshToken: string;
+}
+
+// 토큰 갱신 응답 타입
+export interface RefreshTokenUpdateResponse {
+  accessToken: string;
 }

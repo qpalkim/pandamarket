@@ -10,7 +10,7 @@ import {
   validatePassword,
   validatePasswordConfirmation,
 } from "@/utils/validate";
-import { ACCESS_TOKEN_KEY } from "@/constants/storage";
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/constants/storage";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import OAuthButton from "@/components/OAuthButton/OAuthButton";
@@ -84,6 +84,7 @@ export default function SignUpPage() {
         passwordConfirmation,
       });
       localStorage.setItem(ACCESS_TOKEN_KEY, data.accessToken);
+      localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
       const user = await getMyProfile();
       setUser(user);
       navigate("/items");
