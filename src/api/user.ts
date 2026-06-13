@@ -1,5 +1,5 @@
 import {
-  type UserResponse,
+  type BaseUser,
   type UserUpdateRequest,
   type UserUpdateResponse,
   type PasswordUpdateRequest,
@@ -13,7 +13,7 @@ import { fetchClient } from "./client";
 
 // 내 정보 조회 요청 API
 export const getMyProfile = () => {
-  return fetchClient<UserResponse>("/users/me");
+  return fetchClient<BaseUser>("/users/me");
 };
 
 // 내 정보 수정 요청 API
