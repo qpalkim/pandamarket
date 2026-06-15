@@ -1,16 +1,18 @@
+import { Link } from "react-router-dom";
 import type { ProductListItem } from "@/types/product";
 import { Heart } from "lucide-react";
 import defaultProduct from "@/assets/icons/defaultProduct.svg";
 import styles from "./ProductItem.module.scss";
 
 export default function ProductItem({
+  id,
   images,
   name,
   price,
   favoriteCount,
 }: ProductListItem) {
   return (
-    <div className={styles.container}>
+    <Link to={`/items/${id}`} className={styles.container}>
       <div className={styles.imageWrapper}>
         <img
           src={images[0] || defaultProduct}
@@ -27,6 +29,6 @@ export default function ProductItem({
         <Heart className={styles.likeIcon} />
         <span className={styles.likeCount}>{favoriteCount}</span>
       </div>
-    </div>
+    </Link>
   );
 }
