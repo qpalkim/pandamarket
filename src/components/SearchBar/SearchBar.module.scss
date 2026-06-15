@@ -1,0 +1,82 @@
+@use "@/styles/variables" as *;
+
+.container {
+  position: relative;
+  max-width: 324px;
+  width: 100%;
+
+  &:focus-within {
+    .icon {
+      color: $primary-100;
+    }
+  }
+}
+
+.searchBar {
+  width: 100%;
+  height: 46px;
+  padding: 0 40px;
+  border: 1px solid transparent;
+  outline: none;
+  border-radius: 8px;
+  background-color: $secondary-100;
+  color: $secondary-800;
+  font-size: $font-md;
+
+  transition:
+    background-color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+
+  &::placeholder {
+    color: $secondary-400;
+    font-size: $font-md;
+  }
+
+  &:focus {
+    border-color: $primary-100;
+    background-color: rgba($primary-100, 0.05);
+    box-shadow: 0 0 0 3px rgba($primary-100, 0.4);
+  }
+
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  @include tablet {
+    height: 42px;
+    font-size: $font-sm;
+
+    &::placeholder {
+      font-size: $font-sm;
+    }
+  }
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: $secondary-400;
+  transition: color 0.2s ease-in-out;
+}
+
+.clearButton {
+  position: absolute;
+  right: 12px;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $secondary-400;
+  cursor: pointer;
+}
+
+.clearIcon {
+  width: 100%;
+  height: 100%;
+}
