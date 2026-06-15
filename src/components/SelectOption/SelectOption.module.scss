@@ -1,0 +1,46 @@
+@use "@/styles/variables" as *;
+
+.container {
+  min-width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  border: 1px solid $secondary-500;
+  background-color: $secondary-50;
+  padding: 12px 20px;
+  color: $secondary-500;
+
+  @include mobile {
+    min-width: 112px;
+    height: 42px;
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: $secondary-100;
+  border-color: $secondary-300;
+}
+
+.label {
+  white-space: nowrap;
+  font-size: $font-lg;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @include mobile {
+    font-size: $font-md;
+  }
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease;
+}
+
+.open {
+  transform: rotate(180deg);
+}
