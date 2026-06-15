@@ -1,0 +1,83 @@
+@use "@/styles/variables" as *;
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navButton {
+  margin: 0 16px;
+  cursor: pointer;
+  border-radius: 100%;
+  border: 1px solid $secondary-200;
+  background-color: $secondary-50;
+  color: $secondary-500;
+  padding: 12px;
+  width: 40px;
+  height: 40px;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: $primary-200;
+    color: $secondary-50;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: $secondary-100;
+  }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+.pages {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pageButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-lg;
+  cursor: pointer;
+  border-radius: 100%;
+  border: 1px solid $secondary-200;
+  background-color: $secondary-50;
+  color: $secondary-500;
+  padding: 12px;
+  width: 40px;
+  height: 40px;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: $primary-200;
+    color: $secondary-50;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: $secondary-100;
+  }
+}
+
+.pageButton[aria-current="page"] {
+  background-color: $primary-100;
+  color: $secondary-50;
+  border-color: $primary-100;
+}
+
+.pageButton[aria-current="page"]:hover {
+  background-color: $primary-100;
+}
