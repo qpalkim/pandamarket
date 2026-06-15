@@ -30,7 +30,7 @@
 }
 
 .option {
-  width: 100%;
+  min-width: 130px;
   padding: 12px 32px;
   border: none;
   color: $secondary-500;
@@ -41,6 +41,7 @@
   transition: background-color 0.2s ease-in-out;
 
   @include mobile {
+    min-width: 112px;
     font-size: $font-md;
     padding: 12px 28px;
   }
