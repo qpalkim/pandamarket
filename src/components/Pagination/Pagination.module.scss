@@ -7,13 +7,15 @@
 }
 
 .navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 16px;
   cursor: pointer;
   border-radius: 100%;
   border: 1px solid $secondary-200;
   background-color: $secondary-50;
   color: $secondary-500;
-  padding: 12px;
   width: 40px;
   height: 40px;
   transition:
@@ -29,6 +31,12 @@
     opacity: 0.5;
     cursor: not-allowed;
     background-color: $secondary-100;
+  }
+
+  @include mobile {
+    width: 32px;
+    height: 32px;
+    margin: 0 12px;
   }
 }
 
@@ -53,7 +61,6 @@
   border: 1px solid $secondary-200;
   background-color: $secondary-50;
   color: $secondary-500;
-  padding: 12px;
   width: 40px;
   height: 40px;
   transition:
@@ -69,6 +76,12 @@
     opacity: 0.5;
     cursor: not-allowed;
     background-color: $secondary-100;
+  }
+
+  @include mobile {
+    width: 32px;
+    height: 32px;
+    font-size: $font-md;
   }
 }
 
