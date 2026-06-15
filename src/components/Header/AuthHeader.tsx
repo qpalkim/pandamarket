@@ -10,6 +10,8 @@ export default function AuthHeader() {
   const { user } = useAuth();
   const logout = useLogout();
 
+  if (!user) return null;
+
   const options = [
     { label: "마이 페이지", onClick: () => {} },
     { label: "로그아웃", onClick: logout },
@@ -28,7 +30,9 @@ export default function AuthHeader() {
         </div>
         <Dropdown
           options={options}
-          trigger={<ProfileImage src={user.image} size="lg" clickable />}
+          trigger={
+            <ProfileImage src={user.image ?? null} size="lg" clickable />
+          }
         />
       </div>
     </header>
