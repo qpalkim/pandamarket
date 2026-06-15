@@ -3,6 +3,7 @@ import HomePage from "@/pages/HomePage/HomePage";
 import LoginPage from "@/pages/LoginPage/LoginPage";
 import SignUpPage from "@/pages/SignUpPage/SignUpPage";
 import ItemsPage from "@/pages/ItemsPage/ItemsPage";
+import ItemDetailPage from "@/pages/ItemDetailPage/ItemDetailPage";
 import BoardsPage from "@/pages/BoardsPage/BoardsPage";
 
 export default function Router() {
@@ -12,7 +13,8 @@ export default function Router() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/items" element={<ItemsPage />} />
+      <Route path="/items/:productId" element={<ItemDetailPage />} />
       <Route path="/boards" element={<BoardsPage />} />
     </Routes>
-  )
+  );
 }
