@@ -30,11 +30,19 @@ export default function Pagination({
     onChange(page);
   };
 
+  const handleGroupChange = (direction: number) => {
+    const nextGroup = currentGroup + direction;
+    const startPage = (nextGroup - 1) * PAGE_COUNT + 1;
+
+    if (startPage < 1 || startPage > totalPages) return;
+    onChange(startPage);
+  };
+
   return (
     <nav aria-label="페이지네이션" className={styles.container}>
       <button
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={disabled || currentPage === 1}
+        onClick={() => handleGroupChange(-1)}
+        disabled={disabled || currentGroup === 1}
         aria-label="이전 페이지로 이동"
         className={styles.navButton}
       >
@@ -57,8 +65,10 @@ export default function Pagination({
       </div>
 
       <button
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={disabled || currentPage === totalPages}
+        onClick={() => handleGroupChange(1)}
+        disabled={
+          disabled || currentGroup === Math.ceil(totalPages / PAGE_COUNT)
+        }
         aria-label="다음 페이지로 이동"
         className={styles.navButton}
       >
