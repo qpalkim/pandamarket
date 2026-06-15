@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
-import useLogout from "@/hooks/useLogout";
+import { useAuth } from "@/hooks/useAuth";
+import { useLogout } from "@/hooks/useLogout";
 import ProfileImage from "@/components/ProfileImage/ProfileImage";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import logo from "@/assets/logo/pandamarket.svg";
 import styles from "./AuthHeader.module.scss";
 
 export default function AuthHeader() {
+  const { user } = useAuth();
   const logout = useLogout();
+
+  if (!user) return null;
 
   const options = [
     { label: "마이 페이지", onClick: () => {} },
@@ -26,7 +30,9 @@ export default function AuthHeader() {
         </div>
         <Dropdown
           options={options}
-          trigger={<ProfileImage src={null} size="lg" clickable />}
+          trigger={
+            <ProfileImage src={user.image ?? null} size="lg" clickable />
+          }
         />
       </div>
     </header>

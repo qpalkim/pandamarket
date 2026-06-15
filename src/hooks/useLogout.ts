@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/constants/storage";
 import { useAuth } from "./useAuth";
 
-export default function useLogout() {
+export const useLogout = () => {
   const navigate = useNavigate();
   const { setUser } = useAuth();
 
@@ -12,4 +12,4 @@ export default function useLogout() {
     setUser(null);
     navigate("/login");
   };
-}
+};
