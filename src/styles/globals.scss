@@ -16,10 +16,6 @@ body {
   @include tablet {
     padding-top: 60px;
   }
-
-  @include mobile {
-    padding-top: 52px;
-  }
 }
 
 a {
