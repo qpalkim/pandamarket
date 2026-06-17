@@ -2,6 +2,7 @@
 
 .container {
   min-width: 130px;
+  height: 46px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -11,9 +12,16 @@
   padding: 12px 20px;
   color: $secondary-500;
 
-  @include mobile {
+  @include tablet {
     min-width: 112px;
     height: 42px;
+  }
+
+  @include mobile {
+    min-width: 42px;
+    height: 42px;
+    padding: 0;
+    justify-content: center;
   }
 }
 
@@ -30,7 +38,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
-  @include mobile {
+  @include tablet {
     font-size: $font-md;
   }
 }
