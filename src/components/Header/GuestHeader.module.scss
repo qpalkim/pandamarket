@@ -14,10 +14,6 @@
   @include tablet {
     height: 60px;
   }
-
-  @include mobile {
-    height: 52px;
-  }
 }
 
 .content {
@@ -46,10 +42,6 @@
     white-space: nowrap;
 
     @include tablet {
-      font-size: $font-xl;
-    }
-
-    @include mobile {
       font-size: $font-2lg;
     }
   }
@@ -61,11 +53,6 @@
     @include tablet {
       width: 36px;
       height: 36px;
-    }
-
-    @include mobile {
-      width: 32px;
-      height: 32px;
     }
   }
 }

@@ -40,7 +40,7 @@
   background-color: transparent;
   transition: background-color 0.2s ease-in-out;
 
-  @include mobile {
+  @include tablet {
     min-width: 112px;
     font-size: $font-md;
     padding: 12px 28px;

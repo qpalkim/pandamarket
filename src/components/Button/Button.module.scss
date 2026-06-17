@@ -64,54 +64,49 @@
 /* SIZE */
 .sm {
   width: fit-content;
-  height: 36px;
+  height: 46px;
   font-size: $font-lg;
-  padding: 8px 16px;
+  padding: 8px 20px;
   border-radius: 8px;
 
   @include tablet {
     font-size: $font-md;
-    height: 34px;
-  }
-
-  @include mobile {
-    font-size: $font-sm;
-    height: 32px;
+    height: 42px;
   }
 }
 
 .md {
   width: fit-content;
-  height: 46px;
+  height: 48px;
   font-size: $font-2lg;
   padding: 12px 72px;
   border-radius: 40px;
 
   @include tablet {
     font-size: $font-lg;
-    height: 44px;
+    height: 46px;
   }
 
   @include mobile {
     font-size: $font-md;
-    height: 42px;
+    height: 44px;
   }
 }
 
 .lg {
   width: 100%;
-  height: 48px;
+  height: 50px;
   font-size: $font-xl;
   border-radius: 40px;
 
   @include tablet {
     font-size: $font-2lg;
-    height: 46px;
+    height: 48px;
   }
 
   @include mobile {
     font-size: $font-lg;
-    height: 44px;
+    height: 46px;
   }
 }
 
