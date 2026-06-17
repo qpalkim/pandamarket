@@ -11,6 +11,9 @@ export interface BaseProduct {
   createdAt: string;
 }
 
+// 공통 상품 정렬 타입
+export type OrderBy = "recent" | "favorite";
+
 // 상품 목록 정보 타입
 export interface ProductListItem extends BaseProduct {
   updatedAt: string;
@@ -20,7 +23,7 @@ export interface ProductListItem extends BaseProduct {
 export interface GetProductListParams {
   page: number;
   pageSize: number;
-  orderBy: "recent" | "favorite";
+  orderBy: OrderBy;
   keyword?: string;
 }
 
