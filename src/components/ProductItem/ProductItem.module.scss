@@ -8,17 +8,27 @@
   gap: 12px;
 }
 
+.container:hover .imageWrapper {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.container:hover .image {
+  transform: scale(1.03);
+}
+
 .imageWrapper {
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 16px;
+  transition: box-shadow 0.2s ease;
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.2s ease;
 }
 
 .name {
