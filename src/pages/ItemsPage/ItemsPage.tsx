@@ -53,7 +53,7 @@ export default function ItemsPage() {
     const response = await getProductList({
       page: page ?? currentPage,
       pageSize: allProductCount,
-      orderBy: orderBy,
+      orderBy: orderBy ?? "recent",
       keyword,
     });
 
