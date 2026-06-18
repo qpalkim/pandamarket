@@ -12,16 +12,6 @@
 .sm {
   width: 32px;
   height: 32px;
-
-  @include tablet {
-    width: 28px;
-    height: 28px;
-  }
-
-  @include mobile {
-    width: 24px;
-    height: 24px;
-  }
 }
 
 .lg {

@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: space-between;
   border-radius: 8px;
-  border: 1px solid $secondary-200;
+  border: 1px solid $secondary-300;
   background-color: $secondary-50;
   padding: 12px 20px;
   color: $secondary-500;
@@ -29,7 +29,7 @@
   opacity: 0.5;
   cursor: not-allowed;
   background-color: $secondary-100;
-  border-color: $secondary-300;
+  border-color: $secondary-200;
 }
 
 .label {
