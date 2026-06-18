@@ -1,0 +1,47 @@
+@use "@/styles/variables" as *;
+
+.container {
+  width: 100%;
+  border-bottom: 1px solid $secondary-300;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+  font-size: $font-xs;
+  color: $secondary-400;
+}
+
+.authorName {
+  color: $secondary-600;
+  font-weight: 600;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  color: $secondary-500;
+}
+
+.content {
+  color: $secondary-800;
+  font-size: $font-md;
+  margin: 12px 0;
+}
