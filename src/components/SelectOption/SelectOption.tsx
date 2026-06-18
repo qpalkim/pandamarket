@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ArrowUpNarrowWide, ChevronDown } from "lucide-react";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import Dropdown from "../Dropdown/Dropdown";
 import styles from "./SelectOption.module.scss";
 
@@ -25,6 +26,8 @@ export default function SelectOption({
 
   const selected = options.find((opt) => opt.value === value) ?? options[0];
 
+  const isMobile = useMediaQuery("(max-width: 767px)");
+
   const dropdownOptions = options.map((opt) => ({
     label: opt.label,
     onClick: () => {
@@ -47,11 +50,20 @@ export default function SelectOption({
           aria-expanded={isOpen}
           aria-label="옵션 선택"
         >
-          <span className={styles.label}>{selected.label}</span>
-          <ChevronDown
-            aria-hidden
-            className={`${styles.icon} ${isOpen ? styles.open : ""}`}
-          />
+          {isMobile ? (
+            <ArrowUpNarrowWide
+              aria-hidden
+              className={`${styles.icon} ${isOpen ? styles.open : ""}`}
+            />
+          ) : (
+            <>
+              <span className={styles.label}>{selected.label}</span>
+              <ChevronDown
+                aria-hidden
+                className={`${styles.icon} ${isOpen ? styles.open : ""}`}
+              />
+            </>
+          )}
         </button>
       }
     />

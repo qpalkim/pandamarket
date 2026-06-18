@@ -1,0 +1,108 @@
+@use "@/styles/variables" as *;
+
+.container {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 24px 0 124px;
+
+  @include tablet {
+    padding: 24px 24px 124px;
+  }
+}
+
+.bestProductList {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 24px;
+  margin-bottom: 72px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.title {
+  font-size: $font-xl;
+  color: $secondary-900;
+  font-weight: 700;
+
+  @include mobile {
+    font-size: $font-lg;
+  }
+}
+
+.allProductList {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(5, 1fr);
+  margin-top: 24px;
+  margin-bottom: 72px;
+
+  @include tablet {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* PC & Tablet */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Mobile */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.order {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  width: 100%;
+}
+
+.empty {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: $secondary-400;
+  font-size: $font-md;
+  width: 100%;
+
+  @include mobile {
+    font-size: $font-sm;
+  }
+}
+
+.empty img {
+  width: 196px;
+  height: 196px;
+}
