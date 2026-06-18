@@ -1,13 +1,9 @@
+import type { BaseComment } from "@/types/comment";
 import ProfileImage from "@/components/ProfileImage/ProfileImage";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import styles from "./CommentItem.module.scss";
 
-interface CommentItemProps {
-  images: string | null;
-  name: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
+interface CommentItemProps extends BaseComment {
   isMine: boolean;
 }
 
@@ -17,8 +13,7 @@ const options = [
 ];
 
 export default function CommentItem({
-  images,
-  name,
+  writer,
   content,
   createdAt,
   updatedAt,
@@ -28,9 +23,9 @@ export default function CommentItem({
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.author}>
-          <ProfileImage src={images} />
+          <ProfileImage src={writer.image} />
           <div className={styles.authorInfo}>
-            <p className={styles.authorName}>{name}</p>
+            <p className={styles.authorName}>{writer.nickname}</p>
             <time>{updatedAt || createdAt}</time>
           </div>
         </div>
