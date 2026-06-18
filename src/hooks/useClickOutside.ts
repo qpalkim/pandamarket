@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
-export default function useClickOutside(
+export const useClickOutside = (
   ref: React.RefObject<HTMLElement | null>,
   handler: () => void,
-) {
+) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) handler();
@@ -17,4 +17,4 @@ export default function useClickOutside(
       document.removeEventListener("touchstart", handleClickOutside);
     };
   }, [ref, handler]);
-}
+};
