@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import type { OrderBy, ProductListItem } from "@/types/product";
 import { getProductList } from "@/api/product";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -105,7 +106,9 @@ export default function ItemsPage() {
         <div className={styles.menu}>
           <div className={styles.titleRow}>
             <h2 className={styles.title}>전체 상품</h2>
-            <Button size="sm">상품 등록하기</Button>
+            <Link to="/additem">
+              <Button size="sm">상품 등록하기</Button>
+            </Link>
           </div>
 
           <div className={styles.order}>
@@ -121,7 +124,9 @@ export default function ItemsPage() {
         <div className={styles.toolbar}>
           <h2 className={styles.title}>전체 상품</h2>
           <div className={styles.controls}>
-            <Button size="sm">상품 등록하기</Button>
+            <Link to="/additem">
+              <Button size="sm">상품 등록하기</Button>
+            </Link>
             <SearchBar onSearch={handleSearch} />
             <SelectOption
               options={options}
