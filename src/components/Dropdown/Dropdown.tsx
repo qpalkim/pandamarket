@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { EllipsisVertical } from "lucide-react";
-import useClickOutside from "@/hooks/useClickOutside";
+import { useClickOutside } from "@/hooks/useClickOutside";
 import styles from "./Dropdown.module.scss";
 
 interface DropdownOption {
