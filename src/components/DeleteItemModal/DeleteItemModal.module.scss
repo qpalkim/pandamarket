@@ -1,0 +1,65 @@
+@use "@/styles/variables" as *;
+
+.container {
+  > * + * {
+    margin-top: 24px;
+  }
+
+  @include mobile {
+    > * + * {
+      margin-top: 16px;
+    }
+  }
+}
+
+.alertWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  color: $secondary-400;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.title {
+  color: $secondary-800;
+  font-size: $font-lg;
+  font-weight: 700;
+
+  @include mobile {
+    font-size: $font-md;
+  }
+}
+
+.desc {
+  color: $secondary-400;
+  font-size: $font-md;
+
+  @include mobile {
+    font-size: $font-sm;
+  }
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  > * {
+    flex: 1;
+  }
+}
