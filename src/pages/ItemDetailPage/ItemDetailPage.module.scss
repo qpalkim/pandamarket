@@ -44,12 +44,12 @@
   > * + * {
     margin-top: 16px;
   }
+}
 
-  @include mobile {
-    > * + * {
-      margin-top: 8px;
-    }
-  }
+.productHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .name {

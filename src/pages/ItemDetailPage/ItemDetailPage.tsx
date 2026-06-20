@@ -9,6 +9,7 @@ import {
   deleteLikeProduct,
 } from "@/api/product";
 import { getProductCommentList } from "@/api/comment";
+import { useAuth } from "@/hooks/useAuth";
 import { formatTime } from "@/utils/formatTime";
 import CommentItem from "@/components/CommentItem/CommentItem";
 import ProfileImage from "@/components/ProfileImage/ProfileImage";
@@ -17,9 +18,17 @@ import Button from "@/components/Button/Button";
 import defaultProduct from "@/assets/icons/defaultProduct.svg";
 import empty from "@/assets/icons/defaultComment.svg";
 import styles from "./ItemDetailPage.module.scss";
+import Dropdown from "@/components/Dropdown/Dropdown";
+
+const options = [
+  { label: "수정하기", onClick: () => {} },
+  { label: "삭제하기", onClick: () => {} },
+];
 
 export default function ItemDetailPage() {
   const { productId } = useParams();
+
+  const { user } = useAuth();
 
   const [product, setProduct] = useState<GetProductDetailResponse | null>(null);
   const [comments, setComments] = useState<BaseComment[]>([]);
@@ -118,6 +127,8 @@ export default function ItemDetailPage() {
 
   if (!product) return <div>로딩 중</div>;
 
+  const isMyProduct = user?.id === product.ownerId;
+
   return (
     <div className={styles.container}>
       <div className={styles.productWrapper}>
@@ -129,7 +140,10 @@ export default function ItemDetailPage() {
           />
         </div>
         <div className={styles.productInfo}>
-          <h1 className={styles.name}>{product.name}</h1>
+          <div className={styles.productHeader}>
+            <h1 className={styles.name}>{product.name}</h1>
+            {isMyProduct && <Dropdown options={options} />}
+          </div>
           <h4 className={styles.price}>{product.price.toLocaleString()}원</h4>
           <h6 className={styles.sectionTitle}>상품 소개</h6>
           <p className={styles.desc}>{product.description} </p>
