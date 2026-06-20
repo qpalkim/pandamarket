@@ -1,4 +1,5 @@
 import type { BaseComment } from "@/types/comment";
+import { formatTime } from "@/utils/formatTime";
 import ProfileImage from "@/components/ProfileImage/ProfileImage";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import styles from "./CommentItem.module.scss";
@@ -26,7 +27,7 @@ export default function CommentItem({
           <ProfileImage src={writer.image} />
           <div className={styles.authorInfo}>
             <p className={styles.authorName}>{writer.nickname}</p>
-            <time>{updatedAt || createdAt}</time>
+            <time>{formatTime(updatedAt || createdAt)}</time>
           </div>
         </div>
         {isMine && <Dropdown options={options} />}
