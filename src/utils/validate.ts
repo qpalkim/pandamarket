@@ -36,3 +36,8 @@ export const validatePasswordConfirmation = (
 
   if (password !== passwordConfirmation) return "비밀번호가 일치하지 않습니다.";
 };
+
+// 문의 댓글 유효성 검사
+export const validateComment = (comment: string) => {
+  if (comment.length > 100) return "100자 이내로 입력해 주세요.";
+};
