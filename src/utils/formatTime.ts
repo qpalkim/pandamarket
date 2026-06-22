@@ -1,8 +1,6 @@
 export const formatTime = (createdAt: string) => {
   const now = new Date();
-  // KST(+9) 포맷
-  const createdUTC = new Date(createdAt);
-  const createdDate = new Date(createdUTC.getTime() + 9 * 60 * 60 * 1000);
+  const createdDate = new Date(createdAt);
   const diffInSeconds = Math.floor(
     (now.getTime() - createdDate.getTime()) / 1000,
   );
