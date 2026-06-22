@@ -13,6 +13,7 @@ import Textarea from "@/components/Textarea/Textarea";
 import Button from "@/components/Button/Button";
 import empty from "@/assets/icons/defaultComment.svg";
 import styles from "./CommentSection.module.scss";
+import { Plus } from "lucide-react";
 
 const COMMENT_LIMIT = 6;
 
@@ -198,7 +199,7 @@ export default function CommentSection({ productId }: { productId: number }) {
                 onClick={fetchMoreComments}
                 isLoading={isMoreCommentsLoading}
               >
-                댓글 더보기
+                <Plus className={styles.icon} /> 문의 댓글 더보기
               </Button>
             </div>
           )}
