@@ -20,7 +20,7 @@ export default function CommentSection({ productId }: { productId: number }) {
   const { user } = useAuth();
 
   const [comments, setComments] = useState<BaseComment[]>([]);
-  const [nextCursor, setNextCursor] = useState<number | undefined>(undefined);
+  const [nextCursor, setNextCursor] = useState<number | null>(null);
   const [isMoreCommentsLoading, setIsMoreCommentsLoading] = useState(false);
 
   const [commentContent, setCommentContent] = useState("");
@@ -42,17 +42,17 @@ export default function CommentSection({ productId }: { productId: number }) {
       setComments(res.list);
 
       if (res.list.length < COMMENT_LIMIT) {
-        setNextCursor(undefined);
+        setNextCursor(null);
         return;
       }
 
       const nextRes = await getProductCommentList({
         productId,
         limit: 1,
-        cursor: res.nextCursor,
+        cursor: res.nextCursor ?? undefined,
       });
 
-      setNextCursor(nextRes.list.length > 0 ? res.nextCursor : undefined);
+      setNextCursor(nextRes.list.length > 0 ? res.nextCursor : null);
     } catch (error) {
       console.error(error);
     }
@@ -60,7 +60,7 @@ export default function CommentSection({ productId }: { productId: number }) {
 
   // 문의 댓글 더보기 함수
   const fetchMoreComments = async () => {
-    if (nextCursor === undefined || isMoreCommentsLoading) return;
+    if (nextCursor === null || isMoreCommentsLoading) return;
 
     try {
       setIsMoreCommentsLoading(true);
@@ -186,7 +186,7 @@ export default function CommentSection({ productId }: { productId: number }) {
             ))}
           </div>
 
-          {nextCursor !== undefined && (
+          {nextCursor !== null && (
             <div className={styles.commentMoreButton}>
               <Button
                 variant="outline"
