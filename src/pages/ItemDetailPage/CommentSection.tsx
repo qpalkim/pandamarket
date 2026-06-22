@@ -20,7 +20,7 @@ export default function CommentSection({ productId }: { productId: number }) {
   const { user } = useAuth();
 
   const [comments, setComments] = useState<BaseComment[]>([]);
-  const [nextCursor, setNextCursor] = useState<number | null>(null);
+  const [nextCursor, setNextCursor] = useState<number | undefined>(undefined);
   const [isMoreCommentsLoading, setIsMoreCommentsLoading] = useState(false);
 
   const [commentContent, setCommentContent] = useState("");
