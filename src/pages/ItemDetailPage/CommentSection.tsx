@@ -14,6 +14,8 @@ import Button from "@/components/Button/Button";
 import empty from "@/assets/icons/defaultComment.svg";
 import styles from "./CommentSection.module.scss";
 
+const COMMENT_LIMIT = 6;
+
 export default function CommentSection({ productId }: { productId: number }) {
   const { user } = useAuth();
 
@@ -23,24 +25,34 @@ export default function CommentSection({ productId }: { productId: number }) {
 
   const [commentContent, setCommentContent] = useState("");
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
+  const [commentTouched, setCommentTouched] = useState(false);
   const [serverError, setServerError] = useState("");
-  const [valueTouched, setValueTouched] = useState(false);
 
   const isCommentValid =
     commentContent.trim().length > 0 && !validateComment(commentContent);
 
-  // 상품 문의 댓글 함수
+  // 상품 문의 댓글 목록 함수
   const fetchCommentList = async () => {
-    if (!productId) return;
-
     try {
       const res = await getProductCommentList({
         productId: Number(productId),
-        limit: 6,
+        limit: COMMENT_LIMIT,
       });
 
       setComments(res.list);
-      setNextCursor(res.nextCursor);
+
+      if (res.list.length < COMMENT_LIMIT) {
+        setNextCursor(null);
+        return;
+      }
+
+      const nextRes = await getProductCommentList({
+        productId,
+        limit: 1,
+        cursor: res.nextCursor,
+      });
+
+      setNextCursor(nextRes.list.length > 0 ? res.nextCursor : null);
     } catch (error) {
       console.error(error);
     }
@@ -48,22 +60,19 @@ export default function CommentSection({ productId }: { productId: number }) {
 
   // 문의 댓글 더보기 함수
   const fetchMoreComments = async () => {
-    if (!productId) return;
     if (nextCursor === null || isMoreCommentsLoading) return;
 
     try {
       setIsMoreCommentsLoading(true);
 
       const res = await getProductCommentList({
-        productId: Number(productId),
-        limit: 6,
+        productId,
+        limit: COMMENT_LIMIT,
         cursor: nextCursor,
       });
 
       setComments((prev) => [...prev, ...res.list]);
       setNextCursor(res.nextCursor);
-    } catch (error) {
-      console.error(error);
     } finally {
       setIsMoreCommentsLoading(false);
     }
@@ -84,23 +93,21 @@ export default function CommentSection({ productId }: { productId: number }) {
   const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setValueTouched(true);
+    setCommentTouched(true);
     setServerError("");
 
-    if (!productId || !isCommentValid) return;
+    if (!isCommentValid) return;
 
     try {
       setIsSubmitLoading(true);
 
-      const newComment = await addProductComment(Number(productId), {
+      const newComment = await addProductComment(productId, {
         content: commentContent,
       });
 
       setComments((prev) => [newComment, ...prev]);
-
       setCommentContent("");
-      setValueTouched(false);
-      setServerError("");
+      setCommentTouched(false);
     } catch (error) {
       if (error instanceof Error) {
         setServerError(error.message);
@@ -135,7 +142,7 @@ export default function CommentSection({ productId }: { productId: number }) {
 
   return (
     <div className={styles.commentWrapper}>
-      <form className={styles.addComment} onSubmit={handleSubmitComment}>
+      <form className={styles.commentForm} onSubmit={handleSubmitComment}>
         <h6 className={styles.sectionTitle}>문의하기</h6>
         <Textarea
           value={commentContent}
@@ -143,10 +150,11 @@ export default function CommentSection({ productId }: { productId: number }) {
             setCommentContent(e.target.value);
             setServerError("");
           }}
-          onBlur={() => setValueTouched(true)}
+          onBlur={() => setCommentTouched(true)}
           placeholder="개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다."
           error={
-            serverError || (valueTouched ? validateComment(commentContent) : "")
+            serverError ||
+            (commentTouched ? validateComment(commentContent) : "")
           }
         />
         <Button

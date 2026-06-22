@@ -17,56 +17,35 @@ import defaultProduct from "@/assets/icons/defaultProduct.svg";
 import styles from "./ProductDetail.module.scss";
 
 export default function ProductDetail({ productId }: { productId: number }) {
-  const { user } = useAuth();
-
   const navigate = useNavigate();
+
+  const { user } = useAuth();
 
   const [product, setProduct] = useState<GetProductDetailResponse | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const options = [
-    { label: "수정하기", onClick: () => {} },
-    { label: "삭제하기", onClick: () => setIsOpen(true) },
-  ];
-
-  // 상품 상세 정보 함수
-  const fetchProduct = async () => {
-    try {
-      const response = await getProductDetail(productId);
-      setProduct(response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   // 좋아요 등록/삭제 함수
   const handleLike = async () => {
+    if (!product) return;
+
     try {
-      if (product.isFavorite) {
-        await deleteLikeProduct(product.id);
+      await (product.isFavorite
+        ? deleteLikeProduct(product.id)
+        : addLikeProduct(product.id));
 
-        setProduct((prev) =>
-          prev
-            ? {
-                ...prev,
-                isFavorite: false,
-                favoriteCount: Math.max(prev.favoriteCount - 1, 0),
-              }
-            : prev,
-        );
-      } else {
-        await addLikeProduct(product.id);
+      setProduct((prev) => {
+        if (!prev) return prev;
 
-        setProduct((prev) =>
-          prev
-            ? {
-                ...prev,
-                isFavorite: true,
-                favoriteCount: prev.favoriteCount + 1,
-              }
-            : prev,
-        );
-      }
+        const isFavorite = !prev.isFavorite;
+
+        return {
+          ...prev,
+          isFavorite,
+          favoriteCount: isFavorite
+            ? prev.favoriteCount + 1
+            : Math.max(prev.favoriteCount - 1, 0),
+        };
+      });
     } catch (error) {
       console.error(error);
     }
@@ -74,6 +53,8 @@ export default function ProductDetail({ productId }: { productId: number }) {
 
   // 상품 삭제 함수
   const handleDeleteProduct = async () => {
+    if (!product) return;
+
     try {
       await deleteProduct(product.id);
 
@@ -85,12 +66,25 @@ export default function ProductDetail({ productId }: { productId: number }) {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // 상품 상세 정보 함수
+    const fetchProduct = async () => {
+      try {
+        const res = await getProductDetail(productId);
+        setProduct(res);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     fetchProduct();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
   if (!product) return <div>로딩 중</div>;
+
+  const options = [
+    { label: "수정하기", onClick: () => {} },
+    { label: "삭제하기", onClick: () => setIsOpen(true) },
+  ];
 
   const isMyProduct = user?.id === product.ownerId;
 
@@ -99,8 +93,8 @@ export default function ProductDetail({ productId }: { productId: number }) {
       <div className={styles.productWrapper}>
         <div className={styles.imageWrapper}>
           <img
-            src={product.images[0] ?? defaultProduct}
-            alt={product.name ?? "상품 이미지"}
+            src={product.images[0] || defaultProduct}
+            alt={product.name}
             className={styles.productImage}
           />
         </div>
@@ -131,19 +125,17 @@ export default function ProductDetail({ productId }: { productId: number }) {
               </div>
             </div>
 
-            <div>
-              <button
-                type="button"
-                className={styles.likeButton}
-                onClick={handleLike}
-              >
-                <Heart
-                  className={styles.likeIcon}
-                  fill={product.isFavorite ? "currentColor" : "none"}
-                />
-                <span>{product.favoriteCount}</span>
-              </button>
-            </div>
+            <button
+              type="button"
+              className={styles.likeButton}
+              onClick={handleLike}
+            >
+              <Heart
+                className={styles.likeIcon}
+                fill={product.isFavorite ? "currentColor" : "none"}
+              />
+              <span>{product.favoriteCount}</span>
+            </button>
           </div>
         </div>
       </div>
