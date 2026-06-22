@@ -93,6 +93,11 @@ export default function CommentSection({ productId }: { productId: number }) {
   const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!user) {
+      alert("로그인 후, 이용 가능합니다.");
+      return;
+    }
+
     setCommentTouched(true);
     setServerError("");
 

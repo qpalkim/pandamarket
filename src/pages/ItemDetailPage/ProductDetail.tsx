@@ -26,6 +26,11 @@ export default function ProductDetail({ productId }: { productId: number }) {
 
   // 좋아요 등록/삭제 함수
   const handleLike = async () => {
+    if (!user) {
+      alert("로그인 후, 이용 가능합니다.");
+      return;
+    }
+
     if (!product) return;
 
     try {
