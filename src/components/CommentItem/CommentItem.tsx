@@ -100,7 +100,7 @@ export default function CommentItem({
               </time>
             </div>
           </div>
-          {isMine && <Dropdown options={options} />}
+          {isMine && !isEditing && <Dropdown options={options} />}
         </div>
         {isEditing ? (
           <>
