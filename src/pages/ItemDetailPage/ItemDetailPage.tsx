@@ -9,9 +9,15 @@ import {
   deleteLikeProduct,
   deleteProduct,
 } from "@/api/product";
-import { getProductCommentList, deleteComment } from "@/api/comment";
+import {
+  getProductCommentList,
+  deleteComment,
+  addProductComment,
+  updateComment,
+} from "@/api/comment";
 import { useAuth } from "@/hooks/useAuth";
 import { formatTime } from "@/utils/formatTime";
+import { validateComment } from "@/utils/validate";
 import CommentItem from "@/components/CommentItem/CommentItem";
 import ProfileImage from "@/components/ProfileImage/ProfileImage";
 import Textarea from "@/components/Textarea/Textarea";
@@ -32,7 +38,15 @@ export default function ItemDetailPage() {
   const [product, setProduct] = useState<GetProductDetailResponse | null>(null);
   const [comments, setComments] = useState<BaseComment[]>([]);
   const [nextCursor, setNextCursor] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isMoreCommentsLoading, setIsMoreCommentsLoading] = useState(false);
+
+  const [commentContent, setCommentContent] = useState("");
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const [valueTouched, setValueTouched] = useState(false);
+
+  const isCommentValid =
+    commentContent.trim().length > 0 && !validateComment(commentContent);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -41,6 +55,7 @@ export default function ItemDetailPage() {
     { label: "삭제하기", onClick: () => setIsOpen(true) },
   ];
 
+  // 상품 상세 정보 함수
   const fetchProduct = async () => {
     if (!productId) return;
 
@@ -52,6 +67,7 @@ export default function ItemDetailPage() {
     }
   };
 
+  // 상품 문의 댓글 함수
   const fetchCommentList = async () => {
     if (!productId) return;
 
@@ -68,12 +84,13 @@ export default function ItemDetailPage() {
     }
   };
 
+  // 문의 댓글 더보기 함수
   const fetchMoreComments = async () => {
     if (!productId) return;
-    if (nextCursor === null || isLoading) return;
+    if (nextCursor === null || isMoreCommentsLoading) return;
 
     try {
-      setIsLoading(true);
+      setIsMoreCommentsLoading(true);
 
       const res = await getProductCommentList({
         productId: Number(productId),
@@ -86,10 +103,11 @@ export default function ItemDetailPage() {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setIsMoreCommentsLoading(false);
     }
   };
 
+  // 좋아요 등록/삭제 함수
   const handleLike = async () => {
     if (!product) return;
 
@@ -124,6 +142,7 @@ export default function ItemDetailPage() {
     }
   };
 
+  // 상품 삭제 함수
   const handleDeleteProduct = async () => {
     if (!product) return;
 
@@ -137,11 +156,59 @@ export default function ItemDetailPage() {
     }
   };
 
+  // 문의 댓글 삭제 함수
   const handleDeleteComment = async (id: number) => {
     try {
       await deleteComment(id);
 
       setComments((prev) => prev.filter((comment) => comment.id !== id));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 문의 댓글 등록 함수
+  const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setValueTouched(true);
+    setServerError("");
+
+    if (!productId || !isCommentValid) return;
+
+    try {
+      setIsSubmitLoading(true);
+
+      const newComment = await addProductComment(Number(productId), {
+        content: commentContent,
+      });
+
+      setComments((prev) => [newComment, ...prev]);
+
+      setCommentContent("");
+      setValueTouched(false);
+      setServerError("");
+    } catch (error) {
+      if (error instanceof Error) {
+        setServerError(error.message);
+      } else {
+        setServerError("문의 댓글 등록을 실패했습니다.");
+      }
+    } finally {
+      setIsSubmitLoading(false);
+    }
+  };
+
+  // 문의 댓글 수정 함수
+  const handleUpdateComment = async (id: number, content: string) => {
+    try {
+      const updatedComment = await updateComment(id, {
+        content,
+      });
+
+      setComments((prev) =>
+        prev.map((comment) => (comment.id === id ? updatedComment : comment)),
+      );
     } catch (error) {
       console.error(error);
     }
@@ -214,13 +281,30 @@ export default function ItemDetailPage() {
         </div>
 
         <div className={styles.commentWrapper}>
-          <div className={styles.addComment}>
+          <form className={styles.addComment} onSubmit={handleSubmitComment}>
             <h6 className={styles.sectionTitle}>문의하기</h6>
-            <Textarea placeholder="개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다." />
-            <Button size="sm" disabled>
+            <Textarea
+              value={commentContent}
+              onChange={(e) => {
+                setCommentContent(e.target.value);
+                setServerError("");
+              }}
+              onBlur={() => setValueTouched(true)}
+              placeholder="개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다."
+              error={
+                serverError ||
+                (valueTouched ? validateComment(commentContent) : "")
+              }
+            />
+            <Button
+              type="submit"
+              size="sm"
+              disabled={!isCommentValid || isSubmitLoading}
+              isLoading={isSubmitLoading}
+            >
               등록
             </Button>
-          </div>
+          </form>
 
           {comments.length === 0 ? (
             <div className={styles.empty}>
@@ -234,6 +318,7 @@ export default function ItemDetailPage() {
                   <CommentItem
                     key={comment.id}
                     isMine={user?.id === comment.writer.id}
+                    onUpdate={handleUpdateComment}
                     onDelete={handleDeleteComment}
                     {...comment}
                   />
@@ -245,7 +330,7 @@ export default function ItemDetailPage() {
                   <Button
                     variant="outline"
                     onClick={fetchMoreComments}
-                    isLoading={isLoading}
+                    isLoading={isMoreCommentsLoading}
                   >
                     댓글 더보기
                   </Button>
