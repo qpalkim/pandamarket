@@ -1,0 +1,155 @@
+@use "@/styles/variables" as *;
+
+.productWrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid $secondary-300;
+  padding-bottom: 40px;
+
+  @include mobile {
+    flex-direction: column;
+    padding-bottom: 24px;
+  }
+}
+
+.imageWrapper {
+  flex: 1 1 327px;
+  max-width: 486px;
+}
+
+.productImage {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.productInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 316px;
+
+  > * + * {
+    margin-top: 16px;
+  }
+}
+
+.productHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.name {
+  color: $secondary-800;
+  font-weight: 700;
+  font-size: $font-xl;
+
+  @include mobile {
+    font-size: $font-2lg;
+  }
+}
+
+.price {
+  color: $secondary-800;
+  font-weight: 600;
+  font-size: $font-2xl;
+  border-bottom: 1px solid $secondary-300;
+  padding-bottom: 16px;
+
+  @include mobile {
+    font-size: $font-xl;
+  }
+}
+
+.sectionTitle {
+  color: $secondary-600;
+  font-size: $font-lg;
+  font-weight: 600;
+
+  @include mobile {
+    font-size: $font-md;
+  }
+}
+
+.desc {
+  color: $secondary-600;
+  font-size: $font-lg;
+  line-height: 26px;
+
+  @include mobile {
+    font-size: $font-md;
+  }
+}
+
+.tagWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tags {
+  background-color: $secondary-100;
+  color: $secondary-800;
+  padding: 8px 16px;
+  border-radius: 24px;
+  white-space: nowrap;
+  font-size: $font-md;
+
+  @include mobile {
+    font-size: $font-sm;
+  }
+}
+
+.profile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+
+  @include mobile {
+    gap: 12px;
+  }
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  font-size: $font-sm;
+  color: $secondary-400;
+  gap: 8px;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+  color: $secondary-400;
+}
+
+.authorName {
+  color: $secondary-600;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.likeButton {
+  color: $secondary-500;
+  background-color: $secondary-50;
+  border: 1px solid $secondary-300;
+  padding: 4px 12px;
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: $font-sm;
+}
+
+.likeIcon {
+  width: 16px;
+  height: 16px;
+}
