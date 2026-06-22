@@ -46,6 +46,8 @@
   color: $secondary-800;
   font-size: $font-md;
   margin-bottom: 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .buttonWrapper {
