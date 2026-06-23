@@ -46,9 +46,20 @@
   }
 }
 
-.imageButton {
+.imageWrapper {
+  position: relative;
   width: 282px;
   height: 282px;
+
+  @include tablet {
+    width: 196px;
+    height: 196px;
+  }
+}
+
+.imageButton {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -59,6 +70,7 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: $font-md;
+  overflow: hidden;
 
   @include tablet {
     width: 196px;
@@ -67,11 +79,79 @@
   }
 }
 
-.fileInput {
-  display: none;
-}
-
-.icon {
+.imageIcon {
   width: 36px;
   height: 36px;
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.removeImageButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $secondary-400;
+  color: $secondary-50;
+  cursor: pointer;
+}
+
+.tagWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: $secondary-100;
+  color: $secondary-800;
+  padding: 8px 16px;
+  border-radius: 24px;
+  white-space: nowrap;
+  font-size: $font-md;
+
+  @include mobile {
+    font-size: $font-sm;
+  }
+}
+
+.removeTagButton {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $secondary-400;
+  color: $secondary-50;
+  cursor: pointer;
+}
+
+.removeTagIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.removeImageButton,
+.removeTagButton {
+  transition: opacity 0.2s;
+}
+
+.removeImageButton:hover,
+.removeTagButton:hover {
+  opacity: 0.8;
 }
