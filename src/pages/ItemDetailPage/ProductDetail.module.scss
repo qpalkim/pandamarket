@@ -18,12 +18,13 @@
   max-width: 486px;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  aspect-ratio: 1/1;
+  align-self: flex-start;
 }
 
 .productImage {
   width: 100%;
   height: 100%;
-  aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 16px;
 }
