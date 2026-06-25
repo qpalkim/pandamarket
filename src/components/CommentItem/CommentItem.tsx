@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import type { BaseComment } from "@/types/comment";
 import { formatTime } from "@/utils/formatTime";
 import { validateComment } from "@/utils/validate";
@@ -29,7 +30,6 @@ export default function CommentItem({
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
   const [contentTouched, setContentTouched] = useState(false);
-  const [serverError, setServerError] = useState("");
 
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
 
@@ -49,7 +49,6 @@ export default function CommentItem({
 
   const handleUpdate = async () => {
     setContentTouched(true);
-    setServerError("");
 
     if (!isCommentValid) return;
 
@@ -58,12 +57,12 @@ export default function CommentItem({
       await onUpdate(id, editedContent);
       setIsEditing(false);
       setContentTouched(false);
-      setServerError("");
+      toast.success("문의 댓글을 수정했습니다.");
     } catch (error) {
       if (error instanceof Error) {
-        setServerError(error.message);
+        toast.error(error.message);
       } else {
-        setServerError("문의 댓글 수정을 실패했습니다.");
+        toast.error("문의 댓글 수정에 실패했습니다.");
       }
     } finally {
       setIsUpdateLoading(false);
@@ -71,17 +70,15 @@ export default function CommentItem({
   };
 
   const handleDelete = async () => {
-    setServerError("");
-
     try {
       await onDelete(id);
-
       setIsOpen(false);
+      toast.success("문의 댓글을 삭제했습니다.");
     } catch (error) {
       if (error instanceof Error) {
-        setServerError(error.message);
+        toast.error(error.message);
       } else {
-        setServerError("문의 댓글 삭제에 실패했습니다.");
+        toast.error("문의 댓글 삭제에 실패했습니다.");
       }
     }
   };
@@ -107,15 +104,9 @@ export default function CommentItem({
             <Textarea
               placeholder="개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다."
               value={editedContent}
-              onChange={(e) => {
-                setEditedContent(e.target.value);
-                setServerError("");
-              }}
+              onChange={(e) => setEditedContent(e.target.value)}
               onBlur={() => setContentTouched(true)}
-              error={
-                serverError ||
-                (contentTouched ? validateComment(editedContent) : "")
-              }
+              error={contentTouched ? validateComment(editedContent) : ""}
             />
             <div className={styles.buttonWrapper}>
               <Button

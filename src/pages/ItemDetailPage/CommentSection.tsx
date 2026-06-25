@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { Plus } from "lucide-react";
 import type { BaseComment } from "@/types/comment";
 import {
   getProductCommentList,
@@ -13,7 +15,6 @@ import Textarea from "@/components/Textarea/Textarea";
 import Button from "@/components/Button/Button";
 import empty from "@/assets/icons/defaultComment.svg";
 import styles from "./CommentSection.module.scss";
-import { Plus } from "lucide-react";
 
 const COMMENT_LIMIT = 6;
 
@@ -27,7 +28,6 @@ export default function CommentSection({ productId }: { productId: number }) {
   const [commentContent, setCommentContent] = useState("");
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [commentTouched, setCommentTouched] = useState(false);
-  const [serverError, setServerError] = useState("");
 
   const isCommentValid =
     commentContent.trim().length > 0 && !validateComment(commentContent);
@@ -55,7 +55,9 @@ export default function CommentSection({ productId }: { productId: number }) {
 
       setNextCursor(nextRes.list.length > 0 ? res.nextCursor : null);
     } catch (error) {
-      console.error(error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     }
   };
 
@@ -74,6 +76,10 @@ export default function CommentSection({ productId }: { productId: number }) {
 
       setComments((prev) => [...prev, ...res.list]);
       setNextCursor(res.nextCursor);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     } finally {
       setIsMoreCommentsLoading(false);
     }
@@ -81,13 +87,9 @@ export default function CommentSection({ productId }: { productId: number }) {
 
   // 문의 댓글 삭제 함수
   const handleDeleteComment = async (id: number) => {
-    try {
-      await deleteComment(id);
+    await deleteComment(id);
 
-      setComments((prev) => prev.filter((comment) => comment.id !== id));
-    } catch (error) {
-      console.error(error);
-    }
+    setComments((prev) => prev.filter((comment) => comment.id !== id));
   };
 
   // 문의 댓글 등록 함수
@@ -95,12 +97,11 @@ export default function CommentSection({ productId }: { productId: number }) {
     e.preventDefault();
 
     if (!user) {
-      alert("로그인 후, 이용 가능합니다.");
+      toast.info("로그인 후, 이용 가능합니다.");
       return;
     }
 
     setCommentTouched(true);
-    setServerError("");
 
     if (!isCommentValid) return;
 
@@ -114,11 +115,12 @@ export default function CommentSection({ productId }: { productId: number }) {
       setComments((prev) => [newComment, ...prev]);
       setCommentContent("");
       setCommentTouched(false);
+      toast.success("문의 댓글을 등록했습니다.");
     } catch (error) {
       if (error instanceof Error) {
-        setServerError(error.message);
+        toast.error(error.message);
       } else {
-        setServerError("문의 댓글 등록을 실패했습니다.");
+        toast.error("문의 댓글 등록을 실패했습니다.");
       }
     } finally {
       setIsSubmitLoading(false);
@@ -127,17 +129,13 @@ export default function CommentSection({ productId }: { productId: number }) {
 
   // 문의 댓글 수정 함수
   const handleUpdateComment = async (id: number, content: string) => {
-    try {
-      const updatedComment = await updateComment(id, {
-        content,
-      });
+    const updatedComment = await updateComment(id, {
+      content,
+    });
 
-      setComments((prev) =>
-        prev.map((comment) => (comment.id === id ? updatedComment : comment)),
-      );
-    } catch (error) {
-      console.error(error);
-    }
+    setComments((prev) =>
+      prev.map((comment) => (comment.id === id ? updatedComment : comment)),
+    );
   };
 
   useEffect(() => {
@@ -152,16 +150,10 @@ export default function CommentSection({ productId }: { productId: number }) {
         <h6 className={styles.sectionTitle}>문의하기</h6>
         <Textarea
           value={commentContent}
-          onChange={(e) => {
-            setCommentContent(e.target.value);
-            setServerError("");
-          }}
+          onChange={(e) => setCommentContent(e.target.value)}
           onBlur={() => setCommentTouched(true)}
           placeholder="개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다."
-          error={
-            serverError ||
-            (commentTouched ? validateComment(commentContent) : "")
-          }
+          error={commentTouched ? validateComment(commentContent) : ""}
         />
         <Button
           type="submit"

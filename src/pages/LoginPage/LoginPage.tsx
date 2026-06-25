@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Eye, EyeOff } from "lucide-react";
 import { login } from "@/api/auth";
 import { getMyProfile } from "@/api/user";
@@ -13,11 +14,14 @@ import logo from "@/assets/logo/pandamarket.svg";
 import styles from "./LoginPage.module.scss";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+
+  const { setUser } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const [serverError, setServerError] = useState("");
 
   const [emailTouched, setEmailTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
@@ -27,16 +31,11 @@ export default function LoginPage() {
   const isEmailValid = !validateEmail(email);
   const isPasswordValid = !validatePassword(password);
 
-  const navigate = useNavigate();
-
-  const { setUser } = useAuth();
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setEmailTouched(true);
     setPasswordTouched(true);
-    setServerError("");
 
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
@@ -50,12 +49,13 @@ export default function LoginPage() {
       localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
       const user = await getMyProfile();
       setUser(user);
+      toast.success("로그인에 성공했습니다.");
       navigate("/items");
     } catch (error) {
       if (error instanceof Error) {
-        setServerError(error.message);
+        toast.error(error.message);
       } else {
-        setServerError("로그인을 실패했습니다.");
+        toast.error("로그인을 실패했습니다.");
       }
     } finally {
       setIsLoading(false);
@@ -77,11 +77,8 @@ export default function LoginPage() {
           placeholder="이메일을 입력해 주세요"
           value={email}
           onBlur={() => setEmailTouched(true)}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setServerError("");
-          }}
-          error={serverError || (emailTouched ? validateEmail(email) : "")}
+          onChange={(e) => setEmail(e.target.value)}
+          error={emailTouched ? validateEmail(email) : ""}
         />
         <div className={styles.pwContainer}>
           <Input
