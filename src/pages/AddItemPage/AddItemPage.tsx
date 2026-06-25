@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Plus, X } from "lucide-react";
 import { addProduct } from "@/api/product";
 import { uploadImageFile } from "@/api/image";
@@ -30,7 +31,6 @@ export default function AddItemPage() {
   const [tags, setTags] = useState<string[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [serverError, setServerError] = useState("");
   const [tagInputError, setTagInputError] = useState("");
 
   const [nameTouched, setNameTouched] = useState(false);
@@ -52,20 +52,19 @@ export default function AddItemPage() {
     const imageError = validateImage(file);
 
     if (imageError) {
-      setServerError(imageError);
+      toast.error(imageError);
       return;
     }
 
-    setServerError("");
     setImage(file);
 
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    if (previewUrl.startsWith("blob:")) URL.revokeObjectURL(previewUrl);
     setPreviewUrl(URL.createObjectURL(file));
   };
 
   // 등록된 이미지 제거 함수
   const handleRemoveImage = () => {
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    if (previewUrl.startsWith("blob:")) URL.revokeObjectURL(previewUrl);
 
     setImage(null);
     setPreviewUrl("");
@@ -107,8 +106,6 @@ export default function AddItemPage() {
     setPriceTouched(true);
     setTagsTouched(true);
 
-    setServerError("");
-
     const nameError = validateProductName(name);
     const descError = validateProductDesc(desc);
     const priceError = validateProductPrice(price);
@@ -117,7 +114,7 @@ export default function AddItemPage() {
     if (nameError || descError || priceError || tagsError) return;
 
     if (!image) {
-      setServerError("상품 이미지를 등록해 주세요.");
+      toast.error("상품 이미지를 등록해 주세요.");
       return;
     }
 
@@ -133,23 +130,17 @@ export default function AddItemPage() {
         price: Number(price),
         tags,
       });
+
+      toast.success("상품이 등록되었습니다.");
       navigate(`/items/${data.id}`, {
         replace: true,
       });
     } catch {
-      setServerError("상품 등록을 실패했습니다.");
+      toast.error("상품 등록을 실패했습니다.");
     } finally {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    return () => {
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
-    };
-  }, [previewUrl]);
 
   return (
     <div className={styles.container}>
@@ -220,7 +211,7 @@ export default function AddItemPage() {
           value={name}
           onBlur={() => setNameTouched(true)}
           onChange={(e) => setName(e.target.value)}
-          error={serverError || (nameTouched ? validateProductName(name) : "")}
+          error={nameTouched ? validateProductName(name) : ""}
         />
 
         <Textarea

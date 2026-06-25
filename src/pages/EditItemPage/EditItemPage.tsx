@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Plus, X } from "lucide-react";
 import type { GetProductDetailResponse } from "@/types/product";
 import { getProductDetail, updateProduct } from "@/api/product";
@@ -38,7 +39,6 @@ export default function EditItemPage() {
   const [tags, setTags] = useState<string[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [serverError, setServerError] = useState("");
   const [tagInputError, setTagInputError] = useState("");
 
   const [nameTouched, setNameTouched] = useState(false);
@@ -50,6 +50,12 @@ export default function EditItemPage() {
   const isDescValid = !validateProductDesc(desc);
   const isPriceValid = !validateProductPrice(price);
   const isTagsValid = !validateProductTags(tags);
+  const isChanged =
+    name !== initialProduct?.name ||
+    desc !== initialProduct?.description ||
+    price !== String(initialProduct?.price) ||
+    previewUrl !== (initialProduct?.images[0] ?? "") ||
+    tags.join(",") !== initialProduct?.tags.join(",");
 
   useEffect(() => {
     // 상품 상세 정보 함수
@@ -80,11 +86,10 @@ export default function EditItemPage() {
     const imageError = validateImage(file);
 
     if (imageError) {
-      setServerError(imageError);
+      toast.error(imageError);
       return;
     }
 
-    setServerError("");
     setImage(file);
 
     if (previewUrl.startsWith("blob:")) URL.revokeObjectURL(previewUrl);
@@ -121,7 +126,7 @@ export default function EditItemPage() {
   };
 
   // 등록된 태그 제거 함수
-  const handleRemoveTAg = (idx: number) => {
+  const handleRemoveTag = (idx: number) => {
     setTags((prev) => prev.filter((_, i) => i !== idx));
     setTagInputError("");
   };
@@ -135,8 +140,6 @@ export default function EditItemPage() {
     setPriceTouched(true);
     setTagsTouched(true);
 
-    setServerError("");
-
     const nameError = validateProductName(name);
     const descError = validateProductDesc(desc);
     const priceError = validateProductPrice(price);
@@ -145,7 +148,7 @@ export default function EditItemPage() {
     if (nameError || descError || priceError || tagsError) return;
 
     if (!previewUrl) {
-      setServerError("상품 이미지를 등록해 주세요.");
+      toast.error("상품 이미지를 등록해 주세요.");
       return;
     }
 
@@ -167,28 +170,16 @@ export default function EditItemPage() {
         tags,
       });
 
+      toast.success("상품이 수정되었습니다.");
       navigate(`/items/${productId}`, {
         replace: true,
       });
     } catch {
-      setServerError("상품 수정을 실패했습니다.");
+      toast.error("상품 수정을 실패했습니다.");
     } finally {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    return () => {
-      if (previewUrl.startsWith("blob:")) URL.revokeObjectURL(previewUrl);
-    };
-  }, [previewUrl]);
-
-  const isChanged =
-    name !== initialProduct?.name ||
-    desc !== initialProduct?.description ||
-    price !== String(initialProduct?.price) ||
-    previewUrl !== (initialProduct?.images[0] ?? "") ||
-    tags.join(",") !== initialProduct?.tags.join(",");
 
   return (
     <div className={styles.container}>
@@ -260,7 +251,7 @@ export default function EditItemPage() {
           value={name}
           onBlur={() => setNameTouched(true)}
           onChange={(e) => setName(e.target.value)}
-          error={serverError || (nameTouched ? validateProductName(name) : "")}
+          error={nameTouched ? validateProductName(name) : ""}
         />
 
         <Textarea
@@ -304,7 +295,7 @@ export default function EditItemPage() {
               <button
                 type="button"
                 aria-label="태그 삭제"
-                onClick={() => handleRemoveTAg(idx)}
+                onClick={() => handleRemoveTag(idx)}
                 className={styles.removeTagButton}
               >
                 <X className={styles.removeTagIcon} />
