@@ -5,6 +5,7 @@ import SignUpPage from "@/pages/SignUpPage/SignUpPage";
 import ItemsPage from "@/pages/ItemsPage/ItemsPage";
 import ItemDetailPage from "@/pages/ItemDetailPage/ItemDetailPage";
 import AddItemPage from "@/pages/AddItemPage/AddItemPage";
+import EditItemPage from "@/pages/EditItemPage/EditItemPage";
 import BoardsPage from "@/pages/BoardsPage/BoardsPage";
 
 export default function Router() {
@@ -16,6 +17,7 @@ export default function Router() {
       <Route path="/items" element={<ItemsPage />} />
       <Route path="/items/:productId" element={<ItemDetailPage />} />
       <Route path="/additem" element={<AddItemPage />} />
+      <Route path="/edititem/:productId" element={<EditItemPage />} />
       <Route path="/boards" element={<BoardsPage />} />
     </Routes>
   );
