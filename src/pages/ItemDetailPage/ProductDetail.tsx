@@ -87,7 +87,7 @@ export default function ProductDetail({ productId }: { productId: number }) {
   if (!product) return <div>로딩 중</div>;
 
   const options = [
-    { label: "수정하기", onClick: () => {} },
+    { label: "수정하기", onClick: () => navigate(`/edititem/${productId}`) },
     { label: "삭제하기", onClick: () => setIsOpen(true) },
   ];
 
