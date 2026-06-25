@@ -93,7 +93,7 @@ export default function AddItemPage() {
   };
 
   // 등록된 태그 제거 함수
-  const removeTag = (idx: number) => {
+  const handleRemoveTag = (idx: number) => {
     setTags((prev) => prev.filter((_, i) => i !== idx));
     setTagInputError("");
   };
@@ -264,7 +264,7 @@ export default function AddItemPage() {
               <button
                 type="button"
                 aria-label="태그 삭제"
-                onClick={() => removeTag(idx)}
+                onClick={() => handleRemoveTag(idx)}
                 className={styles.removeTagButton}
               >
                 <X className={styles.removeTagIcon} />
