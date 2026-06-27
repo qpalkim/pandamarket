@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import type { ProductListItem } from "@/types/product";
 import { Heart } from "lucide-react";
+import type { ProductListItem } from "@/types/product";
 import defaultProduct from "@/assets/icons/defaultProduct.svg";
 import styles from "./ProductItem.module.scss";
 
