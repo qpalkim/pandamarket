@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Heart } from "lucide-react";
 import type { GetProductDetailResponse } from "@/types/product";
 import {
@@ -27,32 +28,48 @@ export default function ProductDetail({ productId }: { productId: number }) {
   // 좋아요 등록/삭제 함수
   const handleLike = async () => {
     if (!user) {
-      alert("로그인 후, 이용 가능합니다.");
+      toast.info("로그인 후, 이용 가능합니다.");
       return;
     }
 
     if (!product) return;
 
+    const isFavorite = product.isFavorite;
+
     try {
-      await (product.isFavorite
+      await (isFavorite
         ? deleteLikeProduct(product.id)
         : addLikeProduct(product.id));
 
       setProduct((prev) => {
         if (!prev) return prev;
 
-        const isFavorite = !prev.isFavorite;
+        const nextIsFavorite = !prev.isFavorite;
 
         return {
           ...prev,
-          isFavorite,
-          favoriteCount: isFavorite
+          isFavorite: nextIsFavorite,
+          favoriteCount: nextIsFavorite
             ? prev.favoriteCount + 1
             : Math.max(prev.favoriteCount - 1, 0),
         };
       });
+
+      toast.success(
+        isFavorite
+          ? "관싱 상품에서 삭제되었습니다."
+          : "관심 상품에 추가되었습니다.",
+      );
     } catch (error) {
-      console.error(error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(
+          isFavorite
+            ? "관심 상품 삭제에 실패했습니다."
+            : "관심 상품 추가에 실패했습니다.",
+        );
+      }
     }
   };
 
@@ -64,9 +81,14 @@ export default function ProductDetail({ productId }: { productId: number }) {
       await deleteProduct(product.id);
 
       setIsOpen(false);
+      toast.success("상품을 삭제했습니다.");
       navigate("/items");
     } catch (error) {
-      console.error(error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("상품 삭제를 실패했습니다.");
+      }
     }
   };
 
@@ -87,7 +109,7 @@ export default function ProductDetail({ productId }: { productId: number }) {
   if (!product) return <div>로딩 중</div>;
 
   const options = [
-    { label: "수정하기", onClick: () => {} },
+    { label: "수정하기", onClick: () => navigate(`/edititem/${productId}`) },
     { label: "삭제하기", onClick: () => setIsOpen(true) },
   ];
 

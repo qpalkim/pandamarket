@@ -1,8 +1,10 @@
-import { useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Plus, X } from "lucide-react";
-import { addProduct } from "@/api/product";
+import type { GetProductDetailResponse } from "@/types/product";
+import { getProductDetail, updateProduct } from "@/api/product";
 import { uploadImageFile } from "@/api/image";
 import {
   validateImage,
@@ -14,12 +16,18 @@ import {
 import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
 import Textarea from "@/components/Textarea/Textarea";
-import styles from "./AddItemPage.module.scss";
+import styles from "./EditItemPage.module.scss";
 
-export default function AddItemPage() {
+export default function EditItemPage() {
+  const { productId } = useParams();
+  const id = Number(productId);
+
   const navigate = useNavigate();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [initialProduct, setInitialProduct] =
+    useState<GetProductDetailResponse | null>(null);
 
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState("");
@@ -42,6 +50,32 @@ export default function AddItemPage() {
   const isDescValid = !validateProductDesc(desc);
   const isPriceValid = !validateProductPrice(price);
   const isTagsValid = !validateProductTags(tags);
+  const isChanged =
+    name !== initialProduct?.name ||
+    desc !== initialProduct?.description ||
+    price !== String(initialProduct?.price) ||
+    previewUrl !== (initialProduct?.images[0] ?? "") ||
+    tags.join(",") !== initialProduct?.tags.join(",");
+
+  useEffect(() => {
+    // 상품 상세 정보 함수
+    const fetchProduct = async () => {
+      try {
+        const res = await getProductDetail(id);
+
+        setInitialProduct(res);
+        setPreviewUrl(res.images[0] ?? "");
+        setName(res.name);
+        setDesc(res.description);
+        setPrice(String(res.price));
+        setTags(res.tags);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
 
   // 이미지 파일 등록 함수
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,7 +147,7 @@ export default function AddItemPage() {
 
     if (nameError || descError || priceError || tagsError) return;
 
-    if (!image) {
+    if (!previewUrl) {
       toast.error("상품 이미지를 등록해 주세요.");
       return;
     }
@@ -121,22 +155,27 @@ export default function AddItemPage() {
     try {
       setIsLoading(true);
 
-      const { url } = await uploadImageFile(image);
+      let imageUrl = previewUrl;
 
-      const data = await addProduct({
-        images: [url],
+      if (image) {
+        const { url } = await uploadImageFile(image);
+        imageUrl = url;
+      }
+
+      await updateProduct(id, {
+        images: [imageUrl],
         name,
         description: desc,
         price: Number(price),
         tags,
       });
 
-      toast.success("상품이 등록되었습니다.");
-      navigate(`/items/${data.id}`, {
+      toast.success("상품이 수정되었습니다.");
+      navigate(`/items/${productId}`, {
         replace: true,
       });
     } catch {
-      toast.error("상품 등록을 실패했습니다.");
+      toast.error("상품 수정을 실패했습니다.");
     } finally {
       setIsLoading(false);
     }
@@ -146,21 +185,22 @@ export default function AddItemPage() {
     <div className={styles.container}>
       <form className={styles.addProductForm} onSubmit={handleSubmit}>
         <div className={styles.header}>
-          <h1 className={styles.title}>상품 등록하기</h1>
+          <h1 className={styles.title}>상품 수정하기</h1>
           <Button
             type="submit"
             size="sm"
             disabled={
-              !image ||
+              !previewUrl ||
               !isNameValid ||
               !isDescValid ||
               !isPriceValid ||
               !isTagsValid ||
+              !isChanged ||
               isLoading
             }
             isLoading={isLoading}
           >
-            등록
+            수정
           </Button>
         </div>
 
