@@ -7,6 +7,7 @@ import ItemDetailPage from "@/pages/ItemDetailPage/ItemDetailPage";
 import AddItemPage from "@/pages/AddItemPage/AddItemPage";
 import EditItemPage from "@/pages/EditItemPage/EditItemPage";
 import BoardsPage from "@/pages/BoardsPage/BoardsPage";
+import BoardDetailPage from "@/pages/BoardDetailPage/BoardDetailPage";
 
 export default function Router() {
   return (
@@ -19,6 +20,7 @@ export default function Router() {
       <Route path="/additem" element={<AddItemPage />} />
       <Route path="/edititem/:productId" element={<EditItemPage />} />
       <Route path="/boards" element={<BoardsPage />} />
+      <Route path="/board/:boardId" element={<BoardDetailPage />} />
     </Routes>
   );
 }
