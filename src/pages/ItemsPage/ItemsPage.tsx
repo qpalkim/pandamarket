@@ -62,15 +62,9 @@ export default function ItemsPage() {
     setTotalCount(response.totalCount);
   };
 
-  const handleSearch = async (term: string) => {
+  const handleSearch = (term: string) => {
     setKeyword(term);
     setCurrentPage(1);
-
-    await fetchAllProducts({
-      keyword: term,
-      page: 1,
-      orderBy,
-    });
   };
 
   const handleOrderChange = (value: OrderBy) => {
@@ -153,7 +147,7 @@ export default function ItemsPage() {
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onChange={(page) => setCurrentPage(page)}
+            onChange={setCurrentPage}
           />
         </>
       )}
