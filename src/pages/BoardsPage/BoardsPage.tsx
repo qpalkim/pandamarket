@@ -54,7 +54,7 @@ export default function BoardsPage() {
     const response = await getArticleList({
       page: page ?? currentPage,
       pageSize: 6,
-      orderBy,
+      orderBy: orderBy ?? "recent",
       keyword,
     });
 
