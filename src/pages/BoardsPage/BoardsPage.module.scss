@@ -35,3 +35,40 @@
     font-size: $font-lg;
   }
 }
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.allBoardList {
+  margin-bottom: 24px;
+}
+
+.empty {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: $secondary-400;
+  font-size: $font-md;
+  width: 100%;
+
+  @include mobile {
+    font-size: $font-sm;
+  }
+}
+
+.empty img {
+  width: 196px;
+  height: 196px;
+}
