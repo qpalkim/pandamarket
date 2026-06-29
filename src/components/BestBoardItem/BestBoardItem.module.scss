@@ -1,0 +1,90 @@
+@use "@/styles/variables" as *;
+
+.container {
+  width: 100%;
+  min-width: 0;
+  position: relative;
+  padding: 46px 24px 24px 24px;
+  display: block;
+  border-radius: 8px;
+  background-color: $secondary-100;
+}
+
+.badge {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 16px;
+  background-color: $primary-100;
+  border-radius: 0 0 8px 8px;
+  color: $secondary-50;
+  font-weight: 700;
+  font-size: $font-md;
+  top: 0;
+  left: 24px;
+
+  @include mobile {
+    font-size: $font-sm;
+  }
+}
+
+.badgeIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.content {
+  display: flex;
+  gap: 8px;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+
+  font-size: $font-lg;
+  font-weight: 600;
+  line-height: 1.4;
+  color: $secondary-800;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+
+  max-height: calc(1.4em * 2);
+  word-break: break-word;
+
+  @include mobile {
+    font-size: $font-md;
+  }
+}
+
+.productImage {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border: 1px solid $secondary-300;
+  border-radius: 8px;
+}
+
+.like {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: $secondary-500;
+  margin-top: 16px;
+}
+
+.likeIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.likeCount {
+  font-size: $font-sm;
+}
