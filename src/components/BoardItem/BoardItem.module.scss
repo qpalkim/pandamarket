@@ -1,0 +1,87 @@
+@use "@/styles/variables" as *;
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 0;
+  border-bottom: 1px solid $secondary-300;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+
+  font-size: $font-lg;
+  font-weight: 600;
+  line-height: 1.4;
+  color: $secondary-800;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+
+  max-height: calc(1.4em * 2);
+  word-break: break-word;
+
+  @include mobile {
+    font-size: $font-md;
+  }
+}
+
+.productImage {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border: 1px solid $secondary-300;
+  border-radius: 8px;
+}
+
+.author {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: $font-xs;
+  color: $secondary-400;
+}
+
+.authorName {
+  color: $secondary-600;
+  font-weight: 600;
+}
+
+.like {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: $secondary-500;
+}
+
+.likeIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.likeCount {
+  font-size: $font-sm;
+}
